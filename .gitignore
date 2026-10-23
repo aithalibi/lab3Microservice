@@ -1,0 +1,18 @@
+target/
+*.class
+*.log
+
+# le journal d'execution fait partie des livrables
+!docs/execution.log
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# OS
+.DS_Store
+Thumbs.db

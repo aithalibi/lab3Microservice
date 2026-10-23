@@ -1,0 +1,145 @@
+﻿[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< ma.ioc:lab3-ioc-ocp >-------------------------
+[INFO] Building lab3-ioc-ocp 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ lab3-ioc-ocp ---
+[INFO] Deleting C:\Users\DELL\Desktop\lab3Microservice\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ lab3-ioc-ocp ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ lab3-ioc-ocp ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 15 source files with javac [debug release 17] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ lab3-ioc-ocp ---
+[INFO] skip non existing resourceDirectory C:\Users\DELL\Desktop\lab3Microservice\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ lab3-ioc-ocp ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug release 17] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ lab3-ioc-ocp ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junit4.JUnit4Provider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running test.OcpSelectionTest
+[TRACE] Implementation DAO injectee : DaoImplProd
+[DAO] Lecture depuis la base de donnees de PRODUCTION (profil prod)
+[TRACE] Implementation DAO injectee : DaoApi
+[DAO] Appel a l'API REST externe
+mvn.cmd : oct. 23, 2026 3:02:45 PM 
+org.springframework.context.support.AbstractApplicationContext refresh
+Au caractère Ligne:1 : 148
++ ... roservice"; & $mvn -B -f "$proj\pom.xml" clean test exec:java 2>&1 |  ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (oct. 23, 2026 3...Context refresh 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+WARNING: Exception encountered during context initialization - cancelling 
+refresh attempt: 
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error 
+creating bean with name 'metierImpl' defined in file [C:\Users\DELL\Desktop\lab
+3Microservice\target\classes\metier\MetierImpl.class]: Unsatisfied dependency 
+expressed through constructor parameter 0; nested exception is 
+org.springframework.beans.factory.NoUniqueBeanDefinitionException: No 
+qualifying bean of type 'dao.IDao' available: expected single matching bean 
+but found 4: sqlDao,devDao,fichierDao,apiDao
+[TRACE] Implementation DAO injectee : DaoImpl
+[DAO] Appel a l'API REST externe
+[DAO] Lecture depuis un fichier local
+[DAO] Lecture depuis la base de donnees (prod) - PRIMARY
+[DAO] Lecture depuis la base de donnees (dev)
+[TRACE] Implementation DAO injectee : DaoImpl
+[DAO] Lecture depuis la base de donnees (prod) - PRIMARY
+[TRACE] Implementation DAO injectee : DaoImpl2
+[DAO] Lecture depuis la base de donnees (dev)
+[TRACE] Implementation DAO injectee : DaoApi
+[DAO] Appel a l'API REST externe
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.398 s -- in test.OcpSelectionTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- exec:3.1.0:java (default-cli) @ lab3-ioc-ocp ---
+
+=== SCENARIO 0 : AMBIGUITE (aucune strategie de selection) ===
+oct. 23, 2026 3:02:46 PM 
+org.springframework.context.support.AbstractApplicationContext refresh
+WARNING: Exception encountered during context initialization - cancelling 
+refresh attempt: 
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error 
+creating bean with name 'metierImpl' defined in file [C:\Users\DELL\Desktop\lab
+3Microservice\target\classes\metier\MetierImpl.class]: Unsatisfied dependency 
+expressed through constructor parameter 0; nested exception is 
+org.springframework.beans.factory.NoUniqueBeanDefinitionException: No 
+qualifying bean of type 'dao.IDao' available: expected single matching bean 
+but found 4: sqlDao,devDao,fichierDao,apiDao
+EXCEPTION ATTENDUE : NoUniqueBeanDefinitionException
+MESSAGE            : No qualifying bean of type 'dao.IDao' available: expected single matching bean but found 4: sqlDao,devDao,fichierDao,apiDao
+
+=== SCENARIO A : @Primary -> DaoImpl par defaut ===
+[TRACE] Implementation DAO injectee : DaoImpl
+Bean IDao selectionne : DaoImpl
+[DAO] Lecture depuis la base de donnees (prod) - PRIMARY
+Resultat metier : 200.0
+
+=== SCENARIO B : alias via @Bean -> DaoApi ===
+[TRACE] Implementation DAO injectee : DaoApi
+Bean IDao selectionne : DaoApi
+[DAO] Appel a l'API REST externe
+Resultat metier : 440.0
+
+=== SCENARIO C1 : propriete app.properties (dao.target=dao2) ===
+[TRACE] Implementation DAO injectee : DaoImpl2
+dao.target = dao2
+Bean IDao selectionne : DaoImpl2
+[DAO] Lecture depuis la base de donnees (dev)
+Resultat metier : 300.0
+
+=== SCENARIO C2 : surcharge externe (dao.target=daoApi) sans recompiler ===
+[TRACE] Implementation DAO injectee : DaoApi
+dao.target = daoApi
+Bean IDao selectionne : DaoApi
+[DAO] Appel a l'API REST externe
+Resultat metier : 440.0
+
+=== SCENARIO D : profil Spring 'prod' -> DaoImplProd ===
+[TRACE] Implementation DAO injectee : DaoImplProd
+Profils actifs : prod
+Bean IDao selectionne : DaoImplProd
+[DAO] Lecture depuis la base de donnees de PRODUCTION (profil prod)
+Resultat metier : 200.0
+
+=== SCENARIO E : injection de plusieurs DAO (List et Map) ===
+[TRACE] Implementation DAO injectee : DaoImpl
+Nombre de DAO injectes dans la List : 4
+[DAO] Appel a l'API REST externe
+   Map[daoApi] -> DaoApi = 220.0
+[DAO] Lecture depuis un fichier local
+   Map[daoFile] -> DaoFile = 180.0
+[DAO] Lecture depuis la base de donnees (prod) - PRIMARY
+   Map[dao] -> DaoImpl = 100.0
+[DAO] Lecture depuis la base de donnees (dev)
+   Map[dao2] -> DaoImpl2 = 150.0
+[DAO] Appel a l'API REST externe
+[DAO] Lecture depuis un fichier local
+[DAO] Lecture depuis la base de donnees (prod) - PRIMARY
+[DAO] Lecture depuis la base de donnees (dev)
+Resultat metier (somme) : 650.0
+
+=== FIN === 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.577 s
+[INFO] Finished at: 2026-10-23T15:02:46+02:00
+[INFO] ------------------------------------------------------------------------
